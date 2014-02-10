@@ -1,0 +1,8 @@
+body {
+    background: url("../images/retina_wood.png");
+    text-align: center;
+}
+
+h1 {
+    text-shadow: 0 0 7px #5d4942;
+}
