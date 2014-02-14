@@ -1,16 +1,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<body>
 <table>
-    <form:form action="users/add" modelAttribute="user" method="post">
+    <form:form action="main" modelAttribute="user">
         <tr>
             <td>
-                <label for="usernameInput">Username</label>
+                <label for="nameInput">Username</label>
             </td>
             <td>
-                <form:input path="username" id="usernameInput"/>
-                <form:errors path="username" cssClass="error"/>
+                <form:input path="name" id="nameInput"/>
+                <form:errors path="name" cssClass="error"/>
             </td>
         </tr>
         <tr>
@@ -36,5 +34,3 @@
         </tr>
     </form:form>
 </table>
-</body>
-</html>

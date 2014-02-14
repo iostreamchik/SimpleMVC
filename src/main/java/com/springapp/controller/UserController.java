@@ -4,17 +4,18 @@ import com.springapp.entitys.User;
 import com.springapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 
 @Controller
+@RequestMapping(value = "/main")
 public class UserController {
 
     private User databaseUser;
@@ -22,37 +23,39 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String getList(@ModelAttribute @Valid User user, BindingResult result, ModelMap model) {
+    @RequestMapping(method = RequestMethod.GET)
+    public String getMainPage(@ModelAttribute @Valid User user, BindingResult result, ModelMap model) {
         model.addAttribute("header_title", "welcome to user accounts page.");
-        model.addAttribute("userList", userService.getAll());
-        return "users_list";
+        return "main";
     }
 
-    @RequestMapping(value = "/users/add", method = RequestMethod.POST)
-    public /*RedirectView*/ ModelAndView add(@ModelAttribute @Valid User user, BindingResult result, ModelAndView modelAndView) {
+    @RequestMapping(value = "/userList", method = RequestMethod.GET)
+    public String getUserList(Model model) {
+        model.addAttribute("userList", userService.getAll());
+        return "user_list";
+    }
+
+    @RequestMapping()
+    public String addUser(@ModelAttribute @Valid User user, BindingResult result) {
         if (result.hasErrors()) {
-            //i don`t now how to return my start page with users list and errors
-            modelAndView.setViewName("users_list");
-            return modelAndView;
-//            return new RedirectView("/SimpleMVC/users");
+            //TODO refresh add jsp to view result of field validation
+            return "redirect:/main";
         }
         try {
-            databaseUser = userService.findByUsername(user.getUsername());
+            databaseUser = userService.findByUsername(user.getName());
             compareDataFields(user);
             userService.update(databaseUser);
         } catch (NullPointerException ex) {
             userService.add(user);
         } finally {
-            return modelAndView;
-//            return new RedirectView("/SimpleMVC/users");
+            return "redirect:/main";
         }
     }
 
-    @RequestMapping(value = "/users/delete", method = RequestMethod.GET)
-    public RedirectView delete(@ModelAttribute User user, ModelMap map) {
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public RedirectView deleteUser(@ModelAttribute User user, Model model) {
         userService.delete(user);
-        return new RedirectView("/SimpleMVC/users");
+        return new RedirectView("/SimpleMVC/main");
     }
 
     private void compareDataFields(User inputUser) {

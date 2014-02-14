@@ -12,24 +12,19 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     private ObjectId _id;
-    @NotNull
     @Size(min = 3, max = 15)
-//    @Pattern(regexp = "^[A-Za-z0-9_-]$")
-    private String username;
-    @NotNull
+    private String name;
     @Size(min = 6, max = 24)
-//    @Pattern(regexp = "^[a-zA-Z0-9@*#]$")
     private String password;
-    @Email
-    @NotNull
+    @Email @NotNull
     private String email;
 
     public User() {
         this._id = ObjectId.get();
     }
 
-    public User(String username, String password, String email) {
-        this.username = username;
+    public User(String name, String password, String email) {
+        this.name = name;
         this.password = password;
         this.email = email;
     }
@@ -42,12 +37,12 @@ public class User {
         this._id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

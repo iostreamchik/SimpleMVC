@@ -17,7 +17,7 @@
 	</servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>/users</welcome-file>
+        <welcome-file>/main</welcome-file>
     </welcome-file-list>
 
     <context-param>

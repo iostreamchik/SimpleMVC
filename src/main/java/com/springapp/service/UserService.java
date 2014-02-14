@@ -25,8 +25,8 @@ public class UserService {
         return mongoTemplate.findById(id, User.class);
     }
 
-    public User findByUsername(String username) {
-        Query query = new Query(Criteria.where("username").is(username));
+    public User findByUsername(String name) {
+        Query query = new Query(Criteria.where("name").is(name));
         return mongoTemplate.findOne(query, User.class);
     }
 
